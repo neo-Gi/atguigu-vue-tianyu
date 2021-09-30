@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <title>事件修飾符</title>
+    <style>
+        *{
+            margin-top: 20px;
+        }
+        .demo1{
+            height: 50px;
+            background-color: skyblue;
+        }
+        .box1{
+            padding: 5px;
+            background-color: skyblue;
+        }
+        .box2{
+            padding: 5px;
+            background-color: orange;
+        }
+        .list{
+            height: 200px;
+            width: 200px;
+            background-color: peru;
+            overflow: auto;
+        }
+        li{
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <!--
+        Vue中的时间修饰符:
+                1.prevent:阻止默认事件(常用)
+                2.stop:阻止事件冒泡(常用)
+                3.once:事件只触发一次(常用)
+                4.capture:使用事件的捕获模式
+                5.self:只有event.target是当前操作的元素时才触发事件
+                6.passive:事件的默认行为立即执行,无需等待事件回调执行完毕
+    -->
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>欢迎来到{{name}}学习</h2>
+        <!-- 阻止默认事件(常用) -->
+        <a href="http://www.atguigu.com" @click.prevent="showInfo">点我提示信息</a>
+        
+        <!-- 阻止事件冒泡(常用) -->
+        <div class="demo1" @click="showInfo">
+            <button @click.stop="showInfo">点我提示信息</button>
+        </div>
+
+        <!-- once:事件只触发一次(常用) -->
+        <button @click.once=showInfo>点我提示信息</button>
+
+        <!-- 使用事件的捕获模式 -->
+        <!-- 
+            事件触发分为两个阶段:
+                捕获阶段:由外向内(找到触发事件的那个组件)
+                冒泡阶段:由内向外(事件由内而外层级触发) 
+        -->
+        <div class="box1" @click.capture=showMsg(1)>
+            div1
+            <div class="box2" @click=showMsg(2)>
+                div2
+            </div>
+        </div>
+
+        <!-- 只有event.target是当前操作的元素时才触发事件 -->
+        <div class="demo1" @click.self="showInfo">
+            <button @click="showInfo">点我提示信息</button>
+        </div>   
+        
+        <!-- 事件的默认行为立即执行,无需等待事件回调执行完毕 -->
+        <!--
+            wheel:滚动事件(只有鼠标的中键的滚轮才能触发,且滚动条到底后再滚动鼠标中键仍然能够触发,wheel受passive影响)
+            scroll:滚动事件(滚轮及键盘上的上下键都可以触发,且滚动条到底后再滚动鼠标中键不能触发,scroll不受passive影响)
+        -->
+        <ul @wheel.passive="demo" class="list">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        Vue.config.productionTip = false; //阻止Vue启动时生成生产提示
+        const vm = new Vue({
+            el: '#root',
+            data: {
+                name:"尚硅谷"
+            },
+            methods: {
+                showInfo(){
+                    alert("好好学习,天天向上")
+                },
+                showMsg(e){
+                    console.log(e)
+                },
+                demo(){
+                    for (let i = 0; i < 100000; i++) {
+                        console.log("#")
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
