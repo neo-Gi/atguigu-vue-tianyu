@@ -35,11 +35,9 @@
             data: {
                 firstName: '张',
                 lastName: '三',
-                x:'你好'
-            },
-            methods: {
             },
             computed: {
+                /* 
                 fullName: {
                     //get有什麼作用? 當有人讀取fullName時,get就會被調用,且返回值就作為fullName的值
                     //get什麼時候調用?1.初次讀取fullName時. 2.所依賴的數據發生變化時.
@@ -55,7 +53,12 @@
                         this.firstName = arr[0]
                         this.lastName = arr[1]
                     }
-                }
+                } 
+                */
+               fullName(){
+                console.log('get被調用了')
+                return this.firstName + '-' + this.lastName
+               }
             }
         })
     </script>
