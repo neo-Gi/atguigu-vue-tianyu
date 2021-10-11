@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <title>天氣案例-監視屬性</title>
+</head>
+
+<body>
+    <!-- 
+        監視屬性watch:
+            1.當被監視的屬性變化時,回調函數handler自動調用,進行相關操作
+            2.監視的屬性必須存在,才能進行監視!
+            3.監視的兩種寫法
+                (1).new Vue時傳入watch配置
+                (2).通過vm.$watch監視
+    -->
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>今天天氣很{{info}}</h2>
+        <button @click="changeWeather">點我切換天氣</button>
+    </div>
+    <script type="text/javascript">
+        Vue.config.productionTip = false; //阻止Vue启动时生成生产提示
+        const vm = new Vue({
+            el: '#root',
+            data: {
+                ishot: true
+            },
+            methods: {
+                changeWeather() {
+                    this.ishot = !this.ishot
+                }
+            },
+            computed: {
+                info() {
+                    return this.ishot ? "炎熱" : "涼爽"
+                }
+            },
+            /* watch:{
+                ishot:{
+                    immediate:true, //初始化時讓handler調用一下
+                    //handler什麼時候調用? 當ishot發生改變時.
+                    handler(newValue,oldValue){
+                        console.log('ishot被修改了',newValue,oldValue)
+                    }
+                }
+            } */
+        })
+        vm.$watch('info', {
+            immediate: true, //初始化時讓handler調用一下
+            //handler什麼時候調用? 當ishot發生改變時.
+            handler(newValue, oldValue) {
+                console.log('ishot被修改了', newValue, oldValue)
+            }
+        })
+    </script>
+</body>
+
+</html>

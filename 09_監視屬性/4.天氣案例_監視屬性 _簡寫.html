@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <title>天氣案例-監視屬性 -簡寫</title>
+</head>
+
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>今天天氣很{{info}}</h2>
+        <button @click="changeWeather">點我切換天氣</button>
+    </div>
+    <script type="text/javascript">
+        Vue.config.productionTip = false; //阻止Vue启动时生成生产提示
+        const vm = new Vue({
+            el: '#root',
+            data: {
+                ishot: true
+            },
+            methods: {
+                changeWeather() {
+                    this.ishot = !this.ishot
+                }
+            },
+            computed: {
+                info() {
+                    return this.ishot ? "炎熱" : "涼爽"
+                }
+            },
+            watch: {
+                //正常寫法
+                /* ishot: {
+                    // immediate: true, //初始化時讓handler調用一下
+                    //handler什麼時候調用? 當ishot發生改變時.
+                    handler(newValue, oldValue) {
+                        console.log('ishot被修改了', newValue, oldValue)
+                    }
+                } */
+                //簡寫
+                /* ishot(newValue, oldValue){
+                    console.log('ishot被修改了', newValue, oldValue)
+                } */
+            }
+        })
+        //正常寫法
+        /* vm.$watch('ishot', {
+            // immediate: true, //初始化時讓handler調用一下
+            //handler什麼時候調用? 當ishot發生改變時.
+            handler(newValue, oldValue) {
+                console.log('ishot被修改了', newValue, oldValue)
+            }
+        }) */
+        //簡寫 //Vue所管理的函數不可以寫箭頭函數,否則對象會指向Windows而不是Vue本身
+        vm.$watch('ishot',function(newValue, oldValue){
+            console.log('ishot被修改了', newValue, oldValue)
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <title>天氣案例</title>
+</head>
+
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>今天天氣很{{info}}</h2>
+        <!-- 綁定事件的時候: @xxx="yyy" yyy可以寫一些簡單的語句 -->
+        <!-- <button @click="ishot = !ishot" >點我切換天氣</button> -->
+        <button @click="changeWeather" >點我切換天氣</button>
+    </div>
+    <script type="text/javascript">
+        Vue.config.productionTip = false; //阻止Vue启动时生成生产提示
+        const vm = new Vue({
+            el: '#root',
+            data: {
+                ishot:true
+            },
+            methods: {
+                changeWeather(){
+                    this.ishot = !this.ishot
+                }
+            },
+            computed: {
+                info(){
+                    return this.ishot ? "炎熱" : "涼爽"
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
